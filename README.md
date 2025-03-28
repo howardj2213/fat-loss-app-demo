@@ -19,19 +19,20 @@ npm run dev
 npm run build
 ```
 
-## 🧾 Features
+## 🌐 Deployment (Vercel)
+1. Push this repo to GitHub
+2. Go to [vercel.com](https://vercel.com)
+3. Create a new project → Import your GitHub repo
+4. Under **Build & Output Settings**, set:
+   - **Framework:** `Other`
+   - **Build Command:** `vite build`
+   - **Output Directory:** `dist`
+
+5. Deploy and enjoy your mobile app!
+
+## 📱 Features
 - Meal Plan (7 days x 4 meals)
 - Shopping List by food group
 - Macro Tracker (auto-saves locally)
 - Recipe Viewer
 - Mobile-first design
-- Vercel-ready deployment
-
-## 🌐 Deployment (Vercel)
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Import your repo
-4. Accept Vite default settings
-5. Deploy!
-
-Enjoy tracking your goals from your home screen!
