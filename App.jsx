@@ -1,10 +1,4 @@
-
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const meals = [
@@ -79,7 +73,7 @@ const recipes = [
   }
 ];
 
-export default function FatLossMobilePlan() {
+export default function App() {
   const [macroLog, setMacroLog] = useState({});
 
   const handleMacroChange = (day, field, value) => {
@@ -95,89 +89,68 @@ export default function FatLossMobilePlan() {
   };
 
   return (
-    <div className="p-4 space-y-4">
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="text-xl font-bold mb-2">Daily Macros</h2>
-          <p>Calories: {macros.calories}</p>
-          <p>Protein: {macros.protein}g</p>
-          <p>Fat: {macros.fat}g</p>
-          <p>Carbs: {macros.carbs}g</p>
-        </CardContent>
-      </Card>
+    <div className="p-4 space-y-4 font-sans text-sm">
+      <div className="bg-gray-100 p-4 rounded-lg shadow">
+        <h2 className="text-xl font-bold mb-2">Daily Macros</h2>
+        <p>Calories: {macros.calories}</p>
+        <p>Protein: {macros.protein}g</p>
+        <p>Fat: {macros.fat}g</p>
+        <p>Carbs: {macros.carbs}g</p>
+      </div>
 
-      <Tabs defaultValue="plan">
-        <TabsList className="grid grid-cols-4">
-          <TabsTrigger value="plan">Meal Plan</TabsTrigger>
-          <TabsTrigger value="shop">Shopping</TabsTrigger>
-          <TabsTrigger value="track">Macros</TabsTrigger>
-          <TabsTrigger value="recipes">Recipes</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="plan">
-          <ScrollArea className="h-[400px]">
-            {days.map((day) => (
-              <Card key={day} className="my-2">
-                <CardContent className="p-4">
-                  <h3 className="text-lg font-semibold mb-1">{day}</h3>
-                  {meals.map((meal, idx) => (
-                    <p key={idx} className="text-sm">{meal}</p>
-                  ))}
-                </CardContent>
-              </Card>
+      <div className="space-y-6">
+        <h2 className="text-lg font-semibold">Meal Plan</h2>
+        {days.map((day) => (
+          <div key={day} className="bg-white p-4 rounded border shadow-sm">
+            <h3 className="font-semibold mb-1">{day}</h3>
+            {meals.map((meal, idx) => (
+              <p key={idx}>- {meal}</p>
             ))}
-          </ScrollArea>
-        </TabsContent>
+          </div>
+        ))}
+      </div>
 
-        <TabsContent value="shop">
-          <ScrollArea className="h-[400px]">
-            {Object.entries(shoppingList).map(([category, items]) => (
-              <Card key={category} className="my-2">
-                <CardContent className="p-4">
-                  <h3 className="text-lg font-semibold mb-2">{category}</h3>
-                  <ul className="list-disc list-inside">
-                    {items.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-          </ScrollArea>
-        </TabsContent>
+      <div className="space-y-6">
+        <h2 className="text-lg font-semibold">Macro Tracker</h2>
+        {days.map((day) => (
+          <div key={day} className="bg-white p-4 rounded border shadow-sm">
+            <h3 className="font-semibold mb-2">{day}</h3>
+            <input className="border p-1 rounded mb-1 w-full" placeholder="Protein (g)" value={macroLog[day]?.protein || ''} onChange={(e) => handleMacroChange(day, 'protein', e.target.value)} />
+            <input className="border p-1 rounded mb-1 w-full" placeholder="Fat (g)" value={macroLog[day]?.fat || ''} onChange={(e) => handleMacroChange(day, 'fat', e.target.value)} />
+            <input className="border p-1 rounded mb-1 w-full" placeholder="Carbs (g)" value={macroLog[day]?.carbs || ''} onChange={(e) => handleMacroChange(day, 'carbs', e.target.value)} />
+            <input className="border p-1 rounded mb-1 w-full" placeholder="Calories" value={macroLog[day]?.calories || ''} onChange={(e) => handleMacroChange(day, 'calories', e.target.value)} />
+            <input className="border p-1 rounded mb-1 w-full" placeholder="Notes" value={macroLog[day]?.notes || ''} onChange={(e) => handleMacroChange(day, 'notes', e.target.value)} />
+          </div>
+        ))}
+      </div>
 
-        <TabsContent value="track">
-          <ScrollArea className="h-[400px]">
-            {days.map((day) => (
-              <Card key={day} className="my-2">
-                <CardContent className="p-4 space-y-2">
-                  <h3 className="text-lg font-semibold">{day}</h3>
-                  <Input placeholder="Protein (g)" type="number" value={macroLog[day]?.protein || ""} onChange={(e) => handleMacroChange(day, "protein", e.target.value)} />
-                  <Input placeholder="Fat (g)" type="number" value={macroLog[day]?.fat || ""} onChange={(e) => handleMacroChange(day, "fat", e.target.value)} />
-                  <Input placeholder="Carbs (g)" type="number" value={macroLog[day]?.carbs || ""} onChange={(e) => handleMacroChange(day, "carbs", e.target.value)} />
-                  <Input placeholder="Calories" type="number" value={macroLog[day]?.calories || ""} onChange={(e) => handleMacroChange(day, "calories", e.target.value)} />
-                  <Input placeholder="Notes" value={macroLog[day]?.notes || ""} onChange={(e) => handleMacroChange(day, "notes", e.target.value)} />
-                </CardContent>
-              </Card>
-            ))}
-          </ScrollArea>
-        </TabsContent>
+      <div className="space-y-6">
+        <h2 className="text-lg font-semibold">Shopping List</h2>
+        {Object.entries(shoppingList).map(([group, items]) => (
+          <div key={group} className="bg-white p-4 rounded border shadow-sm">
+            <h3 className="font-semibold mb-2">{group}</h3>
+            <ul className="list-disc list-inside">
+              {items.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
-        <TabsContent value="recipes">
-          <ScrollArea className="h-[400px]">
-            {recipes.map((recipe, idx) => (
-              <Card key={idx} className="my-2">
-                <CardContent className="p-4">
-                  <h3 className="text-lg font-semibold mb-2">{recipe.title}</h3>
-                  {recipe.steps.map((step, i) => (
-                    <p key={i} className="text-sm">- {step}</p>
-                  ))}
-                </CardContent>
-              </Card>
-            ))}
-          </ScrollArea>
-        </TabsContent>
-      </Tabs>
+      <div className="space-y-6">
+        <h2 className="text-lg font-semibold">Recipes</h2>
+        {recipes.map((recipe, idx) => (
+          <div key={idx} className="bg-white p-4 rounded border shadow-sm">
+            <h3 className="font-semibold mb-2">{recipe.title}</h3>
+            <ul className="list-disc list-inside">
+              {recipe.steps.map((step, i) => (
+                <li key={i}>{step}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
